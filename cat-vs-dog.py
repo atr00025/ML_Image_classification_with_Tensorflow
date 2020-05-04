@@ -9,10 +9,25 @@ from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.applications.inception_v3 import InceptionV3
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
-local_weights_file = 'C:/ML things/Image_classification_part3/inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5'
+#Edit the storage directories as same as this file's location.
+wget --no-check-certificate \
+https://storage.googleapis.com/mledu-datasets/inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5 \
+    -O /Image_classification_part3/inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5
+
+local_weights_file = '/Image_classification_part3/inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5'
 pre_trained_model = InceptionV3(
     input_shape=(150, 150, 3), include_top=False, weights=None)
 pre_trained_model.load_weights(local_weights_file)
+
+#Edit the storage directories as same as this file's location.
+wget --no-check-certificate \
+   https://storage.googleapis.com/mledu-datasets/cats_and_dogs_filtered.zip -O \
+   /Image_classification_part3/cats_and_dogs_filtered.zip
+
+local_zip = '/Image_classification_part3/cats_and_dogs_filtered.zip'
+zip_ref = zipfile.ZipFile(local_zip, 'r')
+zip_ref.extractall('/Image_classification_part3')
+zip_ref.close()
 
 for layer in pre_trained_model.layers:
     layer.trainable = False
